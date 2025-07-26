@@ -66,11 +66,19 @@ run_app() {
     
     # Activate virtual environment if it exists
     if [ -d "venv" ]; then
+        echo -e "${YELLOW}🔧 Activating virtual environment...${NC}"
         source venv/bin/activate
+        
+        # Test critical imports
+        echo -e "${YELLOW}🧪 Testing imports...${NC}"
+        python -c "import scipy; import streamlit; from CON_fitting.src.signature_fitter import ConsensusSignatureFitter; print('✅ All imports successful')" || {
+            echo -e "${RED}❌ Import test failed. Reinstalling dependencies...${NC}"
+            pip install -r requirements_app.txt
+        }
     fi
     
     # Run Streamlit app
-    streamlit run app.py --server.port 8501 --server.address localhost
+    streamlit run app.py --server.port ${PORT} --server.address localhost
 }
 
 # Function to install system dependencies (if needed)
