@@ -255,7 +255,7 @@ If you use CONSIG in your research, please cite:
   title={CONSIG: CNA Signature Analysis Web Application},
   author={[Author Names]},
   year={2025},
-  url={https://github.com/[username]/CON-SIG},
+  url={https://github.com/Adarya/CON-SIG},
   note={Academic software for CNA signature analysis}
 }
 ```
@@ -264,7 +264,7 @@ If you use CONSIG in your research, please cite:
 
 For support and questions:
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/[username]/CON-SIG/issues)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/Adarya/CON-SIG/issues)
 - 📧 **Contact**: [Maintainer email]
 - 📖 **Documentation**: See files in this repository
 

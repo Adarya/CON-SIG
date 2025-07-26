@@ -13,7 +13,7 @@ We welcome contributions to CONSIG! This document provides guidelines for contri
 
 1. **Fork the repository**
    ```bash
-   git fork https://github.com/[username]/CON-SIG
+   git fork https://github.com/Adarya/CON-SIG
    ```
 
 2. **Clone your fork**
