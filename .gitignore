@@ -66,6 +66,16 @@ outputs/
 results_*/
 temp_*/
 
+# CON_fitting result directories (exclude large analysis results)
+CON_fitting/results/*/
+CON_fitting/output/*/
+CON_fitting/clinical_analysis_results_*/
+CON_fitting/output_*/
+CON_fitting/test_output/
+
+# Keep only essential data files
+!CON_fitting/data/consensus_signatures.csv
+
 # Docker
 .dockerignore
 

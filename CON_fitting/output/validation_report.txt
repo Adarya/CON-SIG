@@ -1,0 +1,32 @@
+CONSENSUS SIGNATURE VALIDATION REPORT
+============================================================
+
+SUMMARY METRICS
+------------------------------
+overall_correlation           : 0.9464
+overall_r2                    : 0.9323
+overall_rmse                  : 1.7090
+quality_score                 : 0.9394
+mean_signature_correlation    : 0.7059
+min_signature_correlation     : 0.2621
+max_signature_correlation     : 0.9965
+high_quality_signatures       : 3
+mean_sample_correlation       : 0.9621
+high_quality_samples          : 196
+rank_correlation              : 0.8000
+distribution_similarity       : 0.9000
+
+DETAILED METRICS
+------------------------------
+
+Global Metrics:
+  global_pearson           : 0.9464
+  global_r2                : 0.9323
+  global_rmse              : 1.7090
+
+Per-Signature Correlations:
+  consensus_5         : 0.9298
+  consensus_4         : 0.9965
+  consensus_1         : 0.9787
+  consensus_2         : 0.2621
+  consensus_3         : 0.3622

@@ -30,6 +30,5 @@ statsmodels>=0.13.0
 pytest>=7.0.0
 pytest-cov>=4.0.0
 
-# Note: CON_fitting and CON_fitting_enhancements are expected to be available
-# in the local project directory. If they need to be installed separately,
-# add them here or install them via pip install -e .
+# Note: CON_fitting and CON_fitting_enhancements are included in this repository
+# All dependencies for the complete application are listed below
