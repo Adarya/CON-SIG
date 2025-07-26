@@ -37,6 +37,20 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Cloud deployment detection and optimization
+import os
+IS_CLOUD = any(indicator in str(os.environ.get('PATH', '')) 
+               for indicator in ['streamlit', 'share.streamlit.io'])
+
+if IS_CLOUD:
+    # Reduce default bootstrap iterations for cloud deployment
+    DEFAULT_BOOTSTRAP_ITERATIONS = 50
+    MAX_BOOTSTRAP_ITERATIONS = 100
+    st.sidebar.info("🌐 Running on Streamlit Cloud - Bootstrap iterations limited for performance")
+else:
+    DEFAULT_BOOTSTRAP_ITERATIONS = 200
+    MAX_BOOTSTRAP_ITERATIONS = 1000
+
 # Custom CSS for better styling
 st.markdown("""
 <style>
@@ -125,8 +139,8 @@ def main():
         bootstrap_iterations = st.number_input(
             "Bootstrap iterations",
             min_value=50,
-            max_value=1000,
-            value=200,
+            max_value=MAX_BOOTSTRAP_ITERATIONS,
+            value=DEFAULT_BOOTSTRAP_ITERATIONS,
             step=50,
             disabled=not use_bootstrap,
             help="Number of bootstrap iterations (higher = more accurate but slower)"

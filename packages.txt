@@ -1,0 +1,11 @@
+# System packages for Streamlit Cloud deployment
+# These are installed via apt-get on the Ubuntu container
+
+# Required for scientific computing
+build-essential
+gfortran
+libatlas-base-dev
+liblapack-dev
+libblas-dev
+libhdf5-dev
+pkg-config
