@@ -1,0 +1,35 @@
+# CONSIG Web Application Dependencies
+# Core web framework
+streamlit>=1.35.0
+
+# Data processing and analysis
+pandas>=1.5.0
+numpy>=1.21.0
+scipy>=1.9.0
+scikit-learn>=1.1.0
+
+# Visualization
+matplotlib>=3.5.0
+seaborn>=0.11.0
+plotly>=5.0.0
+
+# Image processing for plot exports
+Pillow>=9.0.0
+
+# File handling and utilities
+pathlib2>=2.3.0
+typing-extensions>=4.0.0
+
+# Optional: For enhanced performance
+numba>=0.56.0
+
+# Optional: For advanced statistical analysis
+statsmodels>=0.13.0
+
+# Development and testing (optional)
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Note: CON_fitting and CON_fitting_enhancements are expected to be available
+# in the local project directory. If they need to be installed separately,
+# add them here or install them via pip install -e .
