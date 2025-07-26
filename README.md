@@ -6,7 +6,8 @@
 
 🧬 **CONSIG** (CON_fitting Signature Interface for Genomics) is a user-friendly web application for CNA (Copy Number Alteration) signature analysis. It provides an intuitive interface for analyzing genomic data and extracting meaningful signature patterns using consensus CNA signatures.
 
-**Self-Contained**: Includes the complete CON_fitting framework - no external dependencies needed!
+**✅ Self-Contained**: Includes the complete CON_fitting framework - no external dependencies needed!  
+**✅ Import Issues Fixed**: All CON_fitting modules are included and ready to use!
 
 ## ✨ Key Features
 
