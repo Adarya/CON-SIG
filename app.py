@@ -90,6 +90,17 @@ def initialize_session_state():
         st.session_state.file_data = None
     if 'file_stats' not in st.session_state:
         st.session_state.file_stats = None
+    if 'demo_mode' not in st.session_state:
+        st.session_state.demo_mode = False
+    if 'demo_data' not in st.session_state:
+        st.session_state.demo_data = None
+
+def load_demo_data():
+    """Load the example dataset for demonstration."""
+    demo_path = Path(__file__).parent / 'examples' / 'example_matrix.tsv'
+    if demo_path.exists():
+        return pd.read_csv(demo_path, sep='\t')
+    return None
 
 def create_download_link(data: bytes, filename: str, file_type: str) -> str:
     """Create a download link for files"""
@@ -126,6 +137,22 @@ def main():
             type=['seg', 'tsv', 'csv'],
             help="Upload either a cbioportal .seg file or a pre-processed CNA matrix (.tsv/.csv)"
         )
+
+        # Demo data button
+        st.markdown("---")
+        if st.button("📊 Load Demo Data", help="Load a pre-built example dataset with 40 samples representing diverse CNA profiles"):
+            st.session_state.demo_mode = True
+            st.session_state.demo_data = load_demo_data()
+            st.session_state.results = None  # Reset results
+            st.rerun()
+
+        if st.session_state.demo_mode:
+            st.success("✅ Demo data loaded (40 samples)")
+            if st.button("❌ Clear Demo Data"):
+                st.session_state.demo_mode = False
+                st.session_state.demo_data = None
+                st.session_state.results = None
+                st.rerun()
         
         # Analysis parameters
         st.subheader("🔬 Analysis Options")
@@ -173,20 +200,36 @@ def main():
         """)
     
     # Main content area
-    if uploaded_file is not None:
+    # Check if we have data (either uploaded or demo)
+    has_data = uploaded_file is not None or st.session_state.demo_mode
+
+    if has_data:
         # Display file information
         st.subheader("📄 File Information")
-        
+
         try:
-            # Validate and get file statistics
-            file_stats = get_file_statistics(uploaded_file)
+            # Handle demo mode vs uploaded file
+            if st.session_state.demo_mode and st.session_state.demo_data is not None:
+                demo_df = st.session_state.demo_data
+                file_stats = {
+                    'n_samples': len(demo_df),
+                    'n_features': len(demo_df.columns) - 1,  # Exclude Sample_ID
+                    'file_type': 'demo'
+                }
+                st.info("📊 **Demo Mode**: Using example dataset with 40 samples representing diverse CNA profiles (diploid-like, LOH-dominant, mixed aneuploid, focal amplification patterns)")
+            else:
+                # Validate and get file statistics
+                file_stats = get_file_statistics(uploaded_file)
+
             st.session_state.file_stats = file_stats
-            
             display_file_info(file_stats)
             
             # Show file preview
             with st.expander("📊 Data Preview"):
-                if file_stats['file_type'] == 'seg':
+                if st.session_state.demo_mode and st.session_state.demo_data is not None:
+                    st.write("**Demo dataset: 40 samples with diverse CNA patterns**")
+                    st.dataframe(st.session_state.demo_data.head(5), use_container_width=True)
+                elif file_stats['file_type'] == 'seg':
                     st.write("**cbioportal segment file format detected**")
                     # Show first few rows of seg file
                     preview_df = pd.read_csv(uploaded_file, sep='\t', nrows=5)
@@ -203,8 +246,14 @@ def main():
                 
                 with st.spinner("Processing data and fitting signatures..."):
                     try:
-                        # Load and process file
-                        matrix_data = load_user_file(uploaded_file)
+                        # Load and process file (demo or uploaded)
+                        if st.session_state.demo_mode and st.session_state.demo_data is not None:
+                            # Use demo data directly
+                            demo_df = st.session_state.demo_data.copy()
+                            demo_df = demo_df.set_index('Sample_ID')
+                            matrix_data = demo_df
+                        else:
+                            matrix_data = load_user_file(uploaded_file)
                         st.session_state.file_data = matrix_data
                         
                         # Run signature fitting
@@ -313,17 +362,19 @@ def main():
         # Welcome message
         st.markdown("""
         ### Welcome to CONSIG! 🎯
-        
+
         To get started:
-        1. **Upload your CNA data file** using the sidebar
+        1. **Upload your CNA data file** using the sidebar, **OR click "Load Demo Data"** to try with example data
         2. **Configure analysis parameters** (bootstrap, method, etc.)
         3. **Click "Run Analysis"** to process your data
         4. **View and download results** in the main area
-        
+
         **Supported file formats:**
         - **cbioportal .seg files**: Raw segment data with columns: ID, chrom, loc.start, loc.end, seg.mean
         - **Pre-processed matrices**: .tsv/.csv files with samples as rows and CNA features as columns
-        
+
+        **Try the Demo:** Click "Load Demo Data" in the sidebar to analyze 40 example samples with diverse CNA patterns including diploid-like, LOH-dominant, mixed aneuploid, and focal amplification profiles.
+
         **Need help?** Check the sidebar for more information about the analysis options.
         """)
 
