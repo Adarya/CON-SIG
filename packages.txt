@@ -1,6 +1,5 @@
 build-essential
 gfortran
-libatlas-base-dev
 liblapack-dev
 libblas-dev
 libhdf5-dev
